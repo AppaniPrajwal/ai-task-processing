@@ -9,12 +9,15 @@ on:
 jobs:
   lint:
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
+
     - name: Use Node.js
       uses: actions/setup-node@v3
       with:
         node-version: '20'
+
     - name: Install dependencies and Lint Frontend
       run: |
         cd frontend
@@ -24,6 +27,7 @@ jobs:
   build:
     needs: lint
     runs-on: ubuntu-latest
+
     steps:
     - uses: actions/checkout@v3
 
@@ -41,34 +45,39 @@ jobs:
       with:
         context: ./frontend
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/ai-task-frontend:${{ github.sha }}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/ai-task-frontend:latest
 
     - name: Build and push Backend
       uses: docker/build-push-action@v4
       with:
         context: ./backend
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/ai-task-backend:${{ github.sha }}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/ai-task-backend:latest
 
     - name: Build and push Worker
       uses: docker/build-push-action@v4
       with:
         context: ./worker
         push: true
-        tags: ${{ secrets.DOCKERHUB_USERNAME }}/ai-task-worker:${{ github.sha }}
+        tags: ${{ secrets.DOCKERHUB_USERNAME }}/ai-task-worker:latest
 
     - name: Update Kubernetes manifests
       run: |
         git clone https://${{ secrets.GH_PAT }}@github.com/${{ github.repository_owner }}/ai-task-platform-infra.git infra-repo
+
         cd infra-repo
-        
-        # Update image tags
-        sed -i 's|image: .*/ai-task-frontend:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/ai-task-frontend:${{ github.sha }}|g' kubernetes/frontend.yaml
-        sed -i 's|image: .*/ai-task-backend:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/ai-task-backend:${{ github.sha }}|g' kubernetes/backend.yaml
-        sed -i 's|image: .*/ai-task-worker:.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/ai-task-worker:${{ github.sha }}|g' kubernetes/worker.yaml
-        
+
+        sed -i 's|image: .*ai-task-frontend.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/ai-task-frontend:latest|g' kubernetes/frontend.yaml
+
+        sed -i 's|image: .*ai-task-backend.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/ai-task-backend:latest|g' kubernetes/backend.yaml
+
+        sed -i 's|image: .*ai-task-worker.*|image: ${{ secrets.DOCKERHUB_USERNAME }}/ai-task-worker:latest|g' kubernetes/worker.yaml
+
         git config user.name "GitHub Actions"
         git config user.email "actions@github.com"
+
         git add .
-        git commit -m "Update image tags to ${{ github.sha }}"
+
+        git commit -m "Update latest image tags" || echo "No changes to commit"
+
         git push origin main
