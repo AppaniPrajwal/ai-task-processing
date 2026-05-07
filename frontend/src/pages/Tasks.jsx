@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { RefreshCw, X } from 'lucide-react';
 import Navbar from '../components/Navbar';
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000/api';
+const API_URL = import.meta.env.VITE_API_URL;
 
 export default function Tasks({ token, setToken }) {
   const [tasks, setTasks] = useState([]);
