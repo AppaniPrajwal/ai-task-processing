@@ -1,0 +1,4 @@
+redis==5.0.4
+pymongo==4.7.2
+python-dotenv==1.0.1
+certifi==2024.2.2
