@@ -28,12 +28,24 @@ export default function Tasks({ token, setToken }) {
     }
   };
 
-  useEffect(() => {
-    fetchTasks();
-    const interval = setInterval(fetchTasks, 3000);
-    return () => clearInterval(interval);
-  }, []);
+  // useEffect(() => {
+  //   fetchTasks();
+  //   const interval = setInterval(fetchTasks, 3000);
+  //   return () => clearInterval(interval);
+  // }, []);
+useEffect(() => {
+  const getTasks = async () => {
+    await fetchTasks();
+  };
 
+  getTasks();
+
+  const interval = setInterval(getTasks, 3000);
+
+  return () => clearInterval(interval);
+
+// eslint-disable-next-line react-hooks/exhaustive-deps
+}, []);
   const viewTask = async (id) => {
     try {
       const res = await fetch(`${API_URL}/tasks/${id}`, {
