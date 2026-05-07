@@ -41,3 +41,4 @@ A full-stack MERN application with a Python worker for background task processin
    Create an Argo CD application pointing to your infrastructure repository containing the `infra/kubernetes/` manifests. Argo CD will automatically sync the deployments.
 4. **Access**: Map `ai-tasks.local` in your `/etc/hosts` file to your cluster IP to use the Ingress.
 CI Trigger
+final ci test
