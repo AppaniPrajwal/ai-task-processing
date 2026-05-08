@@ -2,7 +2,7 @@
 
 A full-stack microservices application for asynchronous task processing. Users submit text tasks via a React UI; a Node.js API queues them in Redis; Python workers process them in the background and write results to MongoDB.
 
-[![CI/CD](https://github.com/prajwal1050/AI-Task-Processing/actions/workflows/ci.yml/badge.svg)](https://github.com/prajwal1050/AI-Task-Processing/actions/workflows/ci.yml)
+[![CI/CD](https://github.com/AppaniPrajwal/ai-task-processing/actions/workflows/ci.yml/badge.svg)](https://github.com/AppaniPrajwal/ai-task-processing/actions/workflows/ci.yml)
 
 ---
 
@@ -426,10 +426,10 @@ See `.env.example` files in each service directory for templates.
 <!-- Add screenshot here -->
 ![Task result](docs/screenshots/task-result.png)
 
-### Frontend UI
+### Task Logs
 
 <!-- Add screenshot here -->
-![Frontend UI](docs/screenshots/frontend-ui.png)
+![Frontend UI](docs/screenshots/task-logs.png)
 
 ---
 
